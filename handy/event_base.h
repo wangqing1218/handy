@@ -10,6 +10,7 @@ typedef std::function<void(const TcpConnPtr&)> TcpCallBack;
 typedef std::function<void(const TcpConnPtr&, Slice msg)> MsgCallBack;
 
 struct EventBases: private noncopyable {
+    virtual EventBases() = default;
     virtual EventBase* allocBase() = 0;
 };
 
@@ -65,10 +66,10 @@ struct Channel: private noncopyable {
     Channel(EventBase* base, int fd, int events);
     ~Channel();
     EventBase* getBase() { return base_; }
-    int fd() { return fd_; }
+    int fd() const { return fd_; }
     //通道id
-    int64_t id() { return id_; }
-    short events() { return events_; }
+    int64_t id() const { return id_; }
+    short events() const { return events_; }
     //关闭通道
     void close();
 
